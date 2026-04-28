@@ -11,11 +11,15 @@ class Country(db.Model):
     readiness_score = db.Column(db.Integer, nullable=True)
     readiness_tier = db.Column(db.String(50))
     context_note = db.Column(db.String(200))
-    dim_a_legal = db.Column(db.Integer)
-    dim_b_tech = db.Column(db.Integer)
-    dim_c_comm = db.Column(db.Integer)
-    dim_d_social = db.Column(db.Integer)
-    dim_e_reg = db.Column(db.Integer)
+    # 5 building blocks (Article 6 Readiness Toolkit)
+    dim_1_strategic = db.Column(db.Integer)
+    dim_2_legal = db.Column(db.Integer)
+    dim_3_institutional = db.Column(db.Integer)
+    dim_4_operational = db.Column(db.Integer)
+    dim_5_infrastructure = db.Column(db.Integer)
+    # SVG map coordinates (viewBox 0 0 1200 560)
+    map_cx = db.Column(db.Float, nullable=True)
+    map_cy = db.Column(db.Float, nullable=True)
 
     def to_dict(self):
         return {
@@ -25,11 +29,13 @@ class Country(db.Model):
             'readiness_score': self.readiness_score,
             'readiness_tier': self.readiness_tier,
             'context_note': self.context_note,
-            'dim_a_legal': self.dim_a_legal,
-            'dim_b_tech': self.dim_b_tech,
-            'dim_c_comm': self.dim_c_comm,
-            'dim_d_social': self.dim_d_social,
-            'dim_e_reg': self.dim_e_reg,
+            'dim_1_strategic': self.dim_1_strategic,
+            'dim_2_legal': self.dim_2_legal,
+            'dim_3_institutional': self.dim_3_institutional,
+            'dim_4_operational': self.dim_4_operational,
+            'dim_5_infrastructure': self.dim_5_infrastructure,
+            'map_cx': self.map_cx,
+            'map_cy': self.map_cy,
         }
 
 
@@ -114,6 +120,7 @@ class GlobalNews(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     news_id = db.Column(db.String(50), unique=True, nullable=False)
+    country_code = db.Column(db.String(3), nullable=True)  # null = global news
     title = db.Column(db.String(200))
     body = db.Column(db.Text)
     date = db.Column(db.String(50))
@@ -122,6 +129,7 @@ class GlobalNews(db.Model):
     def to_dict(self):
         return {
             'news_id': self.news_id,
+            'country_code': self.country_code,
             'title': self.title,
             'body': self.body,
             'date': self.date,
@@ -148,4 +156,40 @@ class GlobalTradeTrend(db.Model):
             'volume_traded_mt': self.volume_traded_mt,
             'average_price_usd': self.average_price_usd,
             'data_source': self.data_source,
+        }
+
+
+class TickerItem(db.Model):
+    __tablename__ = 'ticker_items'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    ticker_id = db.Column(db.String(50), unique=True, nullable=False)
+    text = db.Column(db.String(500), nullable=False)
+    order = db.Column(db.Integer, default=0)
+
+    def to_dict(self):
+        return {
+            'ticker_id': self.ticker_id,
+            'text': self.text,
+            'order': self.order,
+        }
+
+
+class GlobalStat(db.Model):
+    __tablename__ = 'global_stats'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    stat_key = db.Column(db.String(100), unique=True, nullable=False)
+    stat_value = db.Column(db.String(50))
+    stat_label = db.Column(db.String(200))
+    stat_sub = db.Column(db.String(200))
+    color_hint = db.Column(db.String(50))  # e.g. 'leaf3', 'tide3', 'white'
+
+    def to_dict(self):
+        return {
+            'stat_key': self.stat_key,
+            'stat_value': self.stat_value,
+            'stat_label': self.stat_label,
+            'stat_sub': self.stat_sub,
+            'color_hint': self.color_hint,
         }

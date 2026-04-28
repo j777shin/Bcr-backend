@@ -1,0 +1,5 @@
+country_code,ecosystem_type,recognition_status,details
+IDN,Mangroves,Established,"Fully integrated in MRV; emission factors derived from 736 datapoints across 249 sites (Sasmito et al. 2023): aquaculture 579 / degraded 717 / regenerated 890 / undisturbed 1,061 Mg C/ha."
+IDN,Seagrass,Emerging → Operationalising,"Seagrass Carbon Emission Factor Dataset published on data.go.id; 2025 national map: 660K ha; integration into NDC pending under MMAF SIDAKO."
+IDN,Salt marshes,Newly recognised (2025),Added in SNDC and Blue Carbon Roadmap (Nov 2025) but not yet in MRV.
+IDN,Tidal Wetlands,Emerging,Covered under MOMAF Reg 1/2025 alongside mangroves and seagrass.

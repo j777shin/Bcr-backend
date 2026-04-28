@@ -1,0 +1,14 @@
+stat_key,stat_value,stat_label,stat_sub,color_hint
+hero_mangrove_ha,3.45M,Mangrove Coverage,20% of global mangroves (SNDC 2025),leaf3
+hero_seagrass_ha,660K,Seagrass Extent,National 2025 map (1.84M ha legacy estimate),tide3
+idx_avg_price,$4 (~IDR 67k),IDXCarbon Avg Price,Domestic market average — September 2025,white
+idx_volume_cumulative,1.60 MtCO2e,IDXCarbon Cumulative Volume,Sep 2023 – Jul 2025,white
+idx_retired,0.98 MtCO2e,IDXCarbon Cumulative Retired,Cumulative retired through Jul 2025,white
+idx_listed_projects,8,IDXCarbon Listed Projects,Domestic SPE-GRK projects as of Sep 2025,white
+idx_participants,132,IDXCarbon Registered Participants,As of September 2025,white
+idx_intl_price_floor,$5.90/t,IDXCarbon Intl Price Floor,Gas-fired international tier (Jan 2025),white
+idx_intl_price_ceiling,$7.01/t,IDXCarbon Intl Price Ceiling,Mini-hydro international tier (Jan 2025),white
+ndc_finance_need,USD 472.6B,NDC Financing Need,2030–2035 period (SNDC 2025),white
+mangrove_mitigation_potential,41 TgCO2e/yr,Mangrove Mitigation Potential,Restoration + avoided loss combined (PMC9325550),leaf3
+seagrass_carbon_density,119.5 MgC/ha,Seagrass Carbon Density,Alongi 2016 median — Indonesia,tide3
+mangrove_carbon_density,950.5 MgC/ha,Mangrove Carbon Density,Alongi 2016 median — Indonesia,leaf3

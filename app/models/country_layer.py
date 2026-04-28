@@ -2,6 +2,7 @@ from app import db
 
 
 class CountryMetric(db.Model):
+    """Top-level stat cards shown on the country deep-dive page."""
     __tablename__ = 'country_metrics'
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
@@ -9,10 +10,6 @@ class CountryMetric(db.Model):
     metric_name = db.Column(db.String(100))
     metric_value = db.Column(db.String(100))
     metric_subtext = db.Column(db.String(200))
-    dimension_id = db.Column(db.String(5))
-    dimension_name = db.Column(db.String(100))
-    gate_status = db.Column(db.String(50))
-    description = db.Column(db.Text)
 
     def to_dict(self):
         return {
@@ -20,9 +17,30 @@ class CountryMetric(db.Model):
             'metric_name': self.metric_name,
             'metric_value': self.metric_value,
             'metric_subtext': self.metric_subtext,
+        }
+
+
+class CountryDimension(db.Model):
+    """One row per Article 6 Readiness Toolkit building block per country."""
+    __tablename__ = 'country_dimensions'
+
+    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    country_code = db.Column(db.String(3), db.ForeignKey('countries.country_code'), nullable=False, index=True)
+    dimension_id = db.Column(db.String(5))   # 'i', 'ii', 'iii', 'iv', 'v'
+    label = db.Column(db.String(50))         # 'I — Strategic'
+    full_label = db.Column(db.String(100))   # 'I — Strategic Considerations'
+    gate = db.Column(db.String(20))          # 'cleared', 'pending', 'progress'
+    gate_text = db.Column(db.String(50))     # '✓ Gate cleared'
+    description = db.Column(db.Text)
+
+    def to_dict(self):
+        return {
+            'country_code': self.country_code,
             'dimension_id': self.dimension_id,
-            'dimension_name': self.dimension_name,
-            'gate_status': self.gate_status,
+            'label': self.label,
+            'full_label': self.full_label,
+            'gate': self.gate,
+            'gate_text': self.gate_text,
             'description': self.description,
         }
 
@@ -32,9 +50,9 @@ class CountryChecklist(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     country_code = db.Column(db.String(3), db.ForeignKey('countries.country_code'), nullable=False, index=True)
-    dimension_id = db.Column(db.String(5))
+    dimension_id = db.Column(db.String(5))   # 'i', 'ii', 'iii', 'iv', 'v'
     item_label = db.Column(db.String(200))
-    status = db.Column(db.String(20))
+    status = db.Column(db.String(10))        # 'yes', 'partial', 'no'
 
     def to_dict(self):
         return {

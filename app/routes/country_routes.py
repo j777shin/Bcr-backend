@@ -1,7 +1,8 @@
 from flask import Blueprint, jsonify, request
 from app.models.country_layer import (
-    CountryMetric, CountryChecklist, CountryNDCTarget,
-    CountryInstitution, EcosystemRecognition, CountryAgreement,
+    CountryMetric, CountryDimension, CountryChecklist,
+    CountryNDCTarget, CountryInstitution,
+    EcosystemRecognition, CountryAgreement,
 )
 
 country_bp = Blueprint('country', __name__)
@@ -9,11 +10,14 @@ country_bp = Blueprint('country', __name__)
 
 @country_bp.route('/countries/<string:country_code>/metrics', methods=['GET'])
 def get_metrics(country_code):
-    dimension_id = request.args.get('dimension')
-    query = CountryMetric.query.filter_by(country_code=country_code.upper())
-    if dimension_id:
-        query = query.filter_by(dimension_id=dimension_id.upper())
-    return jsonify([m.to_dict() for m in query.all()])
+    metrics = CountryMetric.query.filter_by(country_code=country_code.upper()).all()
+    return jsonify([m.to_dict() for m in metrics])
+
+
+@country_bp.route('/countries/<string:country_code>/dimensions', methods=['GET'])
+def get_dimensions(country_code):
+    dims = CountryDimension.query.filter_by(country_code=country_code.upper()).all()
+    return jsonify([d.to_dict() for d in dims])
 
 
 @country_bp.route('/countries/<string:country_code>/checklist', methods=['GET'])
@@ -21,7 +25,7 @@ def get_checklist(country_code):
     dimension_id = request.args.get('dimension')
     query = CountryChecklist.query.filter_by(country_code=country_code.upper())
     if dimension_id:
-        query = query.filter_by(dimension_id=dimension_id.upper())
+        query = query.filter_by(dimension_id=dimension_id.lower())
     return jsonify([i.to_dict() for i in query.all()])
 
 

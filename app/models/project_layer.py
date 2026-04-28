@@ -10,15 +10,17 @@ class Project(db.Model):
     location = db.Column(db.String(200))
     status = db.Column(db.String(20))
     tags = db.Column(db.JSON)
-    area = db.Column(db.String(100))
+    area = db.Column(db.String(100))      # hectares as display string
     methodology = db.Column(db.String(200))
     ecosystem_type = db.Column(db.String(50))
-    price = db.Column(db.String(100))
-    first_issued = db.Column(db.String(50))
+    vintage = db.Column(db.String(50))    # credit vintage year or "—"
+    credits = db.Column(db.String(50))    # credits issued, e.g. "2,458" or "—"
+    registry = db.Column(db.String(200))  # registry name, e.g. "Verra VCS"
     description = db.Column(db.Text)
+    checks = db.Column(db.JSON)           # list of check strings
+    price = db.Column(db.String(100))
     rating_agency = db.Column(db.String(100))
     rating_score = db.Column(db.String(10))
-    label = db.Column(db.String(200))
     status_category = db.Column(db.String(20))
 
     def to_dict(self):
@@ -31,12 +33,14 @@ class Project(db.Model):
             'area': self.area,
             'methodology': self.methodology,
             'ecosystem_type': self.ecosystem_type,
-            'price': self.price,
-            'first_issued': self.first_issued,
+            'vintage': self.vintage,
+            'credits': self.credits,
+            'registry': self.registry,
             'description': self.description,
+            'checks': self.checks or [],
+            'price': self.price,
             'rating_agency': self.rating_agency,
             'rating_score': self.rating_score,
-            'label': self.label,
             'status_category': self.status_category,
         }
 
@@ -51,6 +55,7 @@ class Methodology(db.Model):
     ecosystem_focus = db.Column(db.String(200))
     activity_type = db.Column(db.String(100))
     recognition = db.Column(db.String(50))
+    is_current = db.Column(db.Boolean, default=True)  # False = legacy/deprecated
 
     def to_dict(self):
         return {
@@ -60,6 +65,7 @@ class Methodology(db.Model):
             'ecosystem_focus': self.ecosystem_focus,
             'activity_type': self.activity_type,
             'recognition': self.recognition,
+            'is_current': self.is_current,
         }
 
 

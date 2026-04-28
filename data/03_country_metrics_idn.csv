@@ -1,0 +1,26 @@
+country_code,metric_name,metric_value,metric_subtext
+IDN,Mangrove extent,3.45M ha,≈20% of global mangroves (SNDC 2025)
+IDN,Seagrass extent (2025 map),660K ha,National coral & seagrass map 2025 (KKP)
+IDN,Seagrass extent (legacy),1.84M ha,Indonesia Blue Economy Roadmap 2nd Ed. 2023
+IDN,Mangrove C stock (median),950.5 Mg C/ha,Alongi et al. 2016 — Indonesia
+IDN,Seagrass C stock (median),119.5 Mg C/ha,Alongi et al. 2016 — Indonesia
+IDN,Mangrove soil pool,774.7 Mg C/ha,Alongi 2016 median
+IDN,Seagrass soil pool,118.1 Mg C/ha,Alongi 2016 median
+IDN,National blue C reservoir,3.4 Pg C,~17% of world's blue carbon (Alongi 2016)
+IDN,Mangrove mitigation potential,41 Tg CO2e/yr,Restoration + avoided loss combined (PMC9325550)
+IDN,Mangrove restoration only,8.9 Tg CO2e/yr,Restoration potential (PMC9325550)
+IDN,Mangrove deforestation rate,21100 ha/yr,Average 2010–2020 (FAO / Mangrove Alliance)
+IDN,National restoration target,600000 ha,2021–2024 mangrove rehabilitation (Govt. of Indonesia)
+IDN,Domestic carbon price,~IDR 67047/t (~$4),IDXCarbon Sept 2025
+IDN,Cumulative IDXCarbon volume,1599325 tCO2e,Sep 2023–Jul 2025 (IDXCarbon)
+IDN,Cumulative retired volume,980475 tCO2e,Through Jul 2025 (IDXCarbon)
+IDN,SPE-GRK listed total,3054454 tCO2e,97% of SRN-PPI issued units (IDXCarbon)
+IDN,Listed projects (count),8,As of Sep 2025 (IDXCarbon)
+IDN,Registered participants,132,As of Sep 2025 (IDXCarbon)
+IDN,International price floor,$5.90/t (gas) – $7.01/t (hydro),International tier opened Jan 2025 (IDXCarbon)
+IDN,ITMO target,2027,International market entry goal (PR 110/2025)
+IDN,Active methodology,VM0053 (VMD0052),VM0033 deprecated 2023 (Verra/SRN)
+IDN,Total NDC financing need,USD 472.6 B,2030–2035 period vs $247B in BUR2 (SNDC 2025)
+IDN,Mangrove emissions share,≈10% of forestry GHG,Despite only 2.6% of forest area (PMC9325550)
+IDN,Avoided mangrove loss / NDC,8% of 2030 forestry NDC,If primary + secondary loss halted (PMC9325550)
+IDN,Indonesia's blue economy potential,USD 1.3 trillion,Nation-wide marine economic potential (KKP)
