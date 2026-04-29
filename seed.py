@@ -12,6 +12,10 @@ def init_db():
         db.create_all()
         print('✓ Database schema initialized.')
 
+    import extract_ref_data
+    print('Extracting ref data to CSVs...')
+    extract_ref_data.main()
+
     from load_data import load_all
     load_all()
 

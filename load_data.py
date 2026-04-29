@@ -305,6 +305,43 @@ def load_ticker_items():
     return len(rows)
 
 
+def load_countries_ref():
+    rows = _csv('14_countries_ref.csv')
+    for row in rows:
+        code = row['country_code']
+        rec = Country.query.filter_by(country_code=code).first()
+        if not rec:
+            rec = Country(country_code=code)
+            db.session.add(rec)
+        if not rec.country_name and _str(row.get('country_name')):
+            rec.country_name = row['country_name']
+        if rec.map_cx is None:
+            v = _float(row.get('map_cx'))
+            if v is not None:
+                rec.map_cx = v
+        if rec.map_cy is None:
+            v = _float(row.get('map_cy'))
+            if v is not None:
+                rec.map_cy = v
+    return len(rows)
+
+
+def load_country_metrics_ref():
+    rows = _csv('15_country_metrics_ref.csv')
+    added = 0
+    for row in rows:
+        code, name = row['country_code'], row['metric_name']
+        if not CountryMetric.query.filter_by(country_code=code, metric_name=name).first():
+            db.session.add(CountryMetric(
+                country_code=code,
+                metric_name=name,
+                metric_value=_str(row.get('metric_value')),
+                metric_subtext=_str(row.get('metric_subtext')),
+            ))
+            added += 1
+    return added
+
+
 def load_projects():
     rows = _csv('13_projects_idn_energy.csv')
     for row in rows:
@@ -340,6 +377,8 @@ LOADERS = [
     ('11_global_stats_new.csv',          load_global_stats),
     ('12_ticker_items_new.csv',          load_ticker_items),
     ('13_projects_idn_energy.csv',       load_projects),
+    ('14_countries_ref.csv',             load_countries_ref),
+    ('15_country_metrics_ref.csv',       load_country_metrics_ref),
 ]
 
 
