@@ -16,7 +16,7 @@ from app.models.country_layer import (
     CountryMetric, CountryNDCTarget, CountryInstitution,
     EcosystemRecognition, CountryAgreement,
 )
-from app.models.project_layer import Project
+from app.models.project_layer import Project, ProjectCost
 
 DATA_DIR = os.path.join(os.path.dirname(__file__), 'data')
 
@@ -361,6 +361,66 @@ def load_projects():
     return len(rows)
 
 
+PROJECT_COST_FLOAT_FIELDS = (
+    'project_size_ha', 'country_size_ha', 'base_size',
+    'total_cost_npv', 'total_cost', 'total_weighted_cost_npv', 'total_weighted_cost',
+    'capex_npv', 'capex', 'opex_npv', 'opex',
+    'country_abatement_potential', 'project_abatement_potential',
+    'cost_per_tco2e', 'cost_per_tco2e_npv',
+    'feasibility_analysis_npv', 'feasibility_analysis',
+    'conservation_planning_npv', 'conservation_planning',
+    'data_collection_npv', 'data_collection',
+    'community_representation_npv', 'community_representation',
+    'blue_carbon_project_planning_npv', 'blue_carbon_project_planning',
+    'establishing_carbon_rights_npv', 'establishing_carbon_rights',
+    'validation_npv', 'validation',
+    'implementation_labor_npv', 'implementation_labor',
+    'monitoring_maintenance_npv', 'monitoring_maintenance',
+    'community_benefit_npv', 'community_benefit',
+    'carbon_standard_fees_npv', 'carbon_standard_fees',
+    'baseline_reassessment_npv', 'baseline_reassessment',
+    'mrv_npv', 'mrv',
+    'long_term_project_operating_npv', 'long_term_project_operating',
+    'initial_price_assumption', 'leftover_after_opex', 'leftover_after_opex_npv',
+    'total_revenue', 'total_revenue_npv', 'credits_issued',
+    'monitoring_npv', 'maintenance_npv', 'monitoring', 'maintenance',
+)
+
+PROJECT_COST_STR_FIELDS = (
+    'country', 'country_code', 'ecosystem', 'activity', 'activity_type',
+    'project_size_filter', 'price_type', 'project_name',
+)
+
+
+def load_project_costs():
+    rows = _csv('16_project_costs_ref.csv')
+    for row in rows:
+        key = dict(
+            country_code=_str(row.get('country_code')),
+            ecosystem=_str(row.get('ecosystem')),
+            activity=_str(row.get('activity')),
+            activity_type=_str(row.get('activity_type')),
+            project_size_filter=_str(row.get('project_size_filter')),
+        )
+        if not all(key.values()):
+            continue
+        rec = ProjectCost.query.filter_by(**key).first()
+        if not rec:
+            rec = ProjectCost(**key)
+            db.session.add(rec)
+        for field in PROJECT_COST_STR_FIELDS:
+            if field in key:
+                continue
+            v = _str(row.get(field))
+            if v is not None:
+                setattr(rec, field, v)
+        for field in PROJECT_COST_FLOAT_FIELDS:
+            v = _float(row.get(field))
+            if v is not None:
+                setattr(rec, field, v)
+    return len(rows)
+
+
 # ── Entry point ───────────────────────────────────────────────────────────────
 
 LOADERS = [
@@ -379,6 +439,7 @@ LOADERS = [
     ('13_projects_idn_energy.csv',       load_projects),
     ('14_countries_ref.csv',             load_countries_ref),
     ('15_country_metrics_ref.csv',       load_country_metrics_ref),
+    ('16_project_costs_ref.csv',         load_project_costs),
 ]
 
 
