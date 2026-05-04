@@ -17,11 +17,12 @@ fi
 echo "Dropping and reloading database..."
 python seed.py
 
-if lsof -ti :5000 &>/dev/null; then
-  echo "Killing existing process on port 5000..."
-  kill -9 $(lsof -ti :5000)
+PORT="${PORT:-5050}"
+if lsof -ti :"$PORT" &>/dev/null; then
+  echo "Killing existing process on port $PORT..."
+  kill -9 $(lsof -ti :"$PORT")
   sleep 1
 fi
 
-echo "Starting Flask server..."
-python run.py
+echo "Starting Flask server on port $PORT..."
+PORT="$PORT" python run.py

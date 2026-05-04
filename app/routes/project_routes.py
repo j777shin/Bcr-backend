@@ -1,32 +1,38 @@
 from flask import Blueprint, jsonify, request
-from app.models.project_layer import Project, Methodology, EcosystemTier
+from app.models.project_layer import ProjectCost, Methodology, EcosystemTier
 
 project_bp = Blueprint('project', __name__)
 
 
-# --- Projects ---
+# --- Projects (CAPEX/OPEX cost-model variations) ---
 
 @project_bp.route('/projects', methods=['GET'])
 def get_projects():
-    status = request.args.get('status')
     ecosystem = request.args.get('ecosystem')
-    location = request.args.get('location')
+    activity = request.args.get('activity')
+    activity_type = request.args.get('activity_type')
+    size = request.args.get('size')
+    country_code = request.args.get('country_code')
 
-    query = Project.query
-    if status:
-        query = query.filter_by(status=status)
+    query = ProjectCost.query
     if ecosystem:
-        query = query.filter_by(ecosystem_type=ecosystem)
-    if location:
-        query = query.filter(Project.location.ilike(f'%{location}%'))
+        query = query.filter_by(ecosystem=ecosystem)
+    if activity:
+        query = query.filter_by(activity=activity)
+    if activity_type:
+        query = query.filter_by(activity_type=activity_type)
+    if size:
+        query = query.filter_by(project_size_filter=size)
+    if country_code:
+        query = query.filter_by(country_code=country_code)
 
-    return jsonify([p.to_dict() for p in query.all()])
+    return jsonify([{'id': p.id, **p.to_dict()} for p in query.all()])
 
 
-@project_bp.route('/projects/<string:project_id>', methods=['GET'])
+@project_bp.route('/projects/<int:project_id>', methods=['GET'])
 def get_project(project_id):
-    project = Project.query.filter_by(project_id=project_id).first_or_404()
-    return jsonify(project.to_dict())
+    project = ProjectCost.query.filter_by(id=project_id).first_or_404()
+    return jsonify({'id': project.id, **project.to_dict()})
 
 
 # --- Methodologies ---
