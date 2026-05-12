@@ -71,6 +71,7 @@ def get_ndc_tracker():
         eco = list(dict.fromkeys(
             (ndc.unconditional_ecosystems or []) + (ndc.conditional_ecosystems or [])
         ))
+        market = CountryCarbonMarket.query.filter_by(country_code=ndc.country_code).first()
         row = {
             'country_code': country.country_code,
             'country': country.country_name,
@@ -80,6 +81,9 @@ def get_ndc_tracker():
             'target': ndc.target_type,
             'market': ndc.domestic_pricing,
             'mkt_status': ndc.market_status,
+            'price_min': market.price_range_min if market else None,
+            'price_max': market.price_range_max if market else None,
+            'currency':  market.currency if market else None,
         }
         # Server-side filtering
         if filter_market and filter_market == 'operational':

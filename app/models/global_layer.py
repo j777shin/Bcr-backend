@@ -11,13 +11,32 @@ class Country(db.Model):
     readiness_score = db.Column(db.Integer, nullable=True)
     readiness_tier = db.Column(db.String(50))
     context_note = db.Column(db.String(200))
-    # 5 building blocks (Article 6 Readiness Toolkit)
+    # 5 building blocks (UNFCCC / NDC Partnership Article 6 Readiness Toolkit)
     dim_1_strategic = db.Column(db.Integer)
     dim_2_legal = db.Column(db.Integer)
     dim_3_institutional = db.Column(db.Integer)
     dim_4_operational = db.Column(db.Integer)
     dim_5_infrastructure = db.Column(db.Integer)
-    # SVG map coordinates (viewBox 0 0 1200 560)
+    # CAAS Article Six Investment Readiness Index — 5 dimensions
+    # A: legally do it? · B: measure & verify? · C: financed & sold? ·
+    # D: socially & environmentally credible? · E: issued & tracked?
+    caas_a_legal = db.Column(db.Integer)
+    caas_b_mrv = db.Column(db.Integer)
+    caas_c_finance = db.Column(db.Integer)
+    caas_d_social = db.Column(db.Integer)
+    caas_e_registry = db.Column(db.Integer)
+    # ── Real binary readiness indicators (5; primary sources only) ──────────
+    # All sourced; see DATA.md for the per-flag provenance.
+    flag_dna_appointed       = db.Column(db.Boolean, default=False)
+    flag_pr_submitted        = db.Column(db.Boolean, default=False)
+    flag_ndc_blue_carbon     = db.Column(db.Boolean, default=False)
+    flag_bilateral_a6_2      = db.Column(db.Boolean, default=False)
+    flag_market_operational  = db.Column(db.Boolean, default=False)
+    components_count         = db.Column(db.Integer, default=0)  # 0–5; precomputed
+    # Aliases kept for backwards compatibility with earlier UI code.
+    dna_appointed = db.Column(db.Boolean, default=False)
+    pr_submitted = db.Column(db.Boolean, default=False)
+    # SVG map coordinates (viewBox 0 0 1200 560) — legacy stylized map
     map_cx = db.Column(db.Float, nullable=True)
     map_cy = db.Column(db.Float, nullable=True)
 
@@ -34,6 +53,19 @@ class Country(db.Model):
             'dim_3_institutional': self.dim_3_institutional,
             'dim_4_operational': self.dim_4_operational,
             'dim_5_infrastructure': self.dim_5_infrastructure,
+            'caas_a_legal': self.caas_a_legal,
+            'caas_b_mrv': self.caas_b_mrv,
+            'caas_c_finance': self.caas_c_finance,
+            'caas_d_social': self.caas_d_social,
+            'caas_e_registry': self.caas_e_registry,
+            'flag_dna_appointed': bool(self.flag_dna_appointed),
+            'flag_pr_submitted': bool(self.flag_pr_submitted),
+            'flag_ndc_blue_carbon': bool(self.flag_ndc_blue_carbon),
+            'flag_bilateral_a6_2': bool(self.flag_bilateral_a6_2),
+            'flag_market_operational': bool(self.flag_market_operational),
+            'components_count': self.components_count or 0,
+            'dna_appointed': bool(self.dna_appointed or self.flag_dna_appointed),
+            'pr_submitted': bool(self.pr_submitted or self.flag_pr_submitted),
             'map_cx': self.map_cx,
             'map_cy': self.map_cy,
         }

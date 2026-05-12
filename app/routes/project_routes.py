@@ -1,7 +1,21 @@
 from flask import Blueprint, jsonify, request
-from app.models.project_layer import ProjectCost, Methodology, EcosystemTier
+from app.models.project_layer import Project, ProjectCost, Methodology, EcosystemTier
 
 project_bp = Blueprint('project', __name__)
+
+
+# --- Registered projects (Verra / Plan Vivo / SRN / bilateral listings) ---
+
+@project_bp.route('/registered-projects', methods=['GET'])
+def get_registered_projects():
+    ecosystem = request.args.get('ecosystem')
+    status = request.args.get('status')
+    query = Project.query
+    if ecosystem:
+        query = query.filter_by(ecosystem_type=ecosystem)
+    if status:
+        query = query.filter_by(status=status)
+    return jsonify([p.to_dict() for p in query.all()])
 
 
 # --- Projects (CAPEX/OPEX cost-model variations) ---
