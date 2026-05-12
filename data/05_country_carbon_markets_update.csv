@@ -1,2 +1,33 @@
 country_code,market_status,price_range_min,price_range_max,currency
-IDN,Active ETS (international tier opened Jan 2025),1.98,8.70,USD
+IDN,Active ETS (Carbon tax + IDX Carbon; international tier opened Jan 2025),1.98,8.70,USD
+SWE,Operational (Carbon Tax),144.62,144.62,USD
+CHE,Operational (Carbon Tax + ETS linked to EU ETS),85.00,136.04,USD
+NOR,Operational (Carbon Tax + EU ETS),79.00,95.00,USD
+EUU,Operational (EU ETS),60.00,95.00,USD
+FRA,Operational (EU ETS),60.00,95.00,USD
+DEU,Operational (EU ETS),60.00,95.00,USD
+GRC,Operational (EU ETS),60.00,95.00,USD
+PRT,Operational (EU ETS),60.00,95.00,USD
+AUT,Operational (EU ETS),60.00,95.00,USD
+EST,Operational (EU ETS),60.00,95.00,USD
+FIN,Operational (EU ETS + Carbon Tax),60.00,95.00,USD
+CZE,Operational (EU ETS),60.00,95.00,USD
+ISL,Operational (Carbon Tax + EU ETS),50.00,85.00,USD
+GBR,Operational (UK ETS),35.00,55.00,USD
+USA,Operational (RGGI + WCI subnational),20.00,32.00,USD
+CAN,Operational (Federal Output-Based Pricing),65.00,75.00,USD
+AUS,Operational (Safeguard Mechanism),20.00,30.00,USD
+NZL,Operational (NZ ETS),28.00,40.00,USD
+CHN,Operational (National ETS),9.00,15.00,USD
+KOR,Operational (K-ETS),8.00,15.00,USD
+JPN,Operational (Carbon Tax; GX-ETS in development),2.00,5.00,USD
+SGP,Operational (Carbon Tax — scheduled USD 33 in 2026),18.60,18.60,USD
+ZAF,Operational (Carbon Tax),8.00,12.00,USD
+MEX,Pilot (Federal Carbon Tax + ETS pilot),5.00,15.00,USD
+COL,Operational (Carbon Tax),5.00,7.00,USD
+CRI,Operational (Carbon Tax),3.00,5.00,USD
+CHL,Operational (Carbon Tax),5.00,8.00,USD
+ARG,Operational (Carbon Tax),5.00,7.00,USD
+BHS,Operational (Carbon Credit Act),0.00,0.00,USD
+BLZ,Operational (Carbon Market Regulations),0.00,0.00,USD
+KEN,Operational (Carbon Market Regulations),0.00,0.00,USD

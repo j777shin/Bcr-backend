@@ -15,6 +15,7 @@ from app.models.global_layer import (
 from app.models.country_layer import (
     CountryMetric, CountryNDCTarget, CountryInstitution,
     EcosystemRecognition, CountryAgreement,
+    CountryDimension, CountryChecklist,
 )
 from app.models.project_layer import Project, ProjectCost
 
@@ -91,10 +92,23 @@ def load_countries():
         if 'context_note' in row:
             rec.context_note = _str(row['context_note'])
         for field in ('readiness_score', 'dim_1_strategic', 'dim_2_legal',
-                      'dim_3_institutional', 'dim_4_operational', 'dim_5_infrastructure'):
+                      'dim_3_institutional', 'dim_4_operational', 'dim_5_infrastructure',
+                      'caas_a_legal', 'caas_b_mrv', 'caas_c_finance',
+                      'caas_d_social', 'caas_e_registry'):
             v = _int(row.get(field))
             if v is not None:
                 setattr(rec, field, v)
+        for flag in ('flag_dna_appointed', 'flag_pr_submitted',
+                     'flag_ndc_blue_carbon', 'flag_bilateral_a6_2',
+                     'flag_market_operational',
+                     'dna_appointed', 'pr_submitted'):
+            if flag in row:
+                rec_val = _bool(row.get(flag))
+                if rec_val is not None:
+                    setattr(rec, flag, rec_val)
+        cc = _int(row.get('components_count'))
+        if cc is not None:
+            rec.components_count = cc
         v = _float(row.get('map_cx'))
         if v is not None:
             rec.map_cx = v
@@ -102,6 +116,23 @@ def load_countries():
         if v is not None:
             rec.map_cy = v
     return len(rows)
+
+
+_ISO3_TO_ISO2 = {
+    'IDN':'ID','BRA':'BR','KEN':'KE','VNM':'VN','AUS':'AU','USA':'US','CHN':'CN',
+    'SYC':'SC','GBR':'GB','CRI':'CR','KOR':'KR','FJI':'FJ','BHS':'BS','MEX':'MX',
+    'COL':'CO','PAN':'PA','PHL':'PH','CHL':'CL','BGD':'BD','VUT':'VU','BLZ':'BZ',
+    'ZAF':'ZA','THA':'TH','CPV':'CV','DOM':'DO','GAB':'GA','NAM':'NA','JOR':'JO',
+    'MHL':'MH','PLW':'PW','SGP':'SG','JPN':'JP','EUU':'EU','ISL':'IS','FRA':'FR',
+    'NOR':'NO','CAN':'CA','TON':'TO','MDV':'MV',
+}
+
+
+def _flag_emoji(iso3: str) -> str | None:
+    iso2 = _ISO3_TO_ISO2.get((iso3 or '').upper())
+    if not iso2 or len(iso2) != 2:
+        return None
+    return ''.join(chr(ord(c) - ord('A') + 0x1F1E6) for c in iso2.upper())
 
 
 def load_country_ndcs():
@@ -123,6 +154,14 @@ def load_country_ndcs():
             domestic_pricing=_str(row.get('domestic_pricing')),
             market_status=_str(row.get('market_status')),
         ))
+        # Ensure the joined Country row has a flag_emoji so the NDC tracker
+        # renders correctly for non-DNA-appointed countries (USA, AUS, JPN, …)
+        # whose row is currently created from 14_countries_ref only.
+        country = Country.query.filter_by(country_code=code).first()
+        if country and not country.flag_emoji:
+            f = _flag_emoji(code)
+            if f:
+                country.flag_emoji = f
     return len(rows)
 
 
@@ -342,8 +381,41 @@ def load_country_metrics_ref():
     return added
 
 
+def load_country_dimensions():
+    rows = _csv('17_country_dimensions_idn.csv')
+    for row in rows:
+        code, dim = row['country_code'], row['dimension_id']
+        rec = CountryDimension.query.filter_by(country_code=code, dimension_id=dim).first()
+        if not rec:
+            rec = CountryDimension(country_code=code, dimension_id=dim)
+            db.session.add(rec)
+        for field in ('label', 'full_label', 'gate', 'gate_text', 'description'):
+            v = _str(row.get(field))
+            if v is not None:
+                setattr(rec, field, v)
+    return len(rows)
+
+
+def load_country_checklists():
+    rows = _csv('18_country_checklists_idn.csv')
+    # Replace-per-country so re-runs don't leave stale items.
+    seen_countries = set()
+    for row in rows:
+        code = row['country_code']
+        if code not in seen_countries:
+            CountryChecklist.query.filter_by(country_code=code).delete()
+            seen_countries.add(code)
+        db.session.add(CountryChecklist(
+            country_code=code,
+            dimension_id=_str(row.get('dimension_id')),
+            item_label=_str(row.get('item_label')),
+            status=_str(row.get('status')),
+        ))
+    return len(rows)
+
+
 def load_projects():
-    rows = _csv('13_projects_idn_energy.csv')
+    rows = _csv('13_projects_idn_bluecarbon.csv')
     for row in rows:
         pid = row['project_id']
         rec = Project.query.filter_by(project_id=pid).first()
@@ -436,10 +508,12 @@ LOADERS = [
     ('10_global_news_idn.csv',           load_global_news),
     ('11_global_stats_new.csv',          load_global_stats),
     ('12_ticker_items_new.csv',          load_ticker_items),
-    ('13_projects_idn_energy.csv',       load_projects),
+    ('13_projects_idn_bluecarbon.csv',   load_projects),
     ('14_countries_ref.csv',             load_countries_ref),
     ('15_country_metrics_ref.csv',       load_country_metrics_ref),
     ('16_project_costs_ref.csv',         load_project_costs),
+    ('17_country_dimensions_idn.csv',    load_country_dimensions),
+    ('18_country_checklists_idn.csv',    load_country_checklists),
 ]
 
 

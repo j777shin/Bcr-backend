@@ -1,5 +1,8 @@
 stat_key,stat_value,stat_label,stat_sub,color_hint
-hero_mangrove_ha,3.45M,Mangrove Coverage,20% of global mangroves (SNDC 2025),leaf3
+hero_countries,127,Countries with DNA appointed,Article 6.4 universe (UNFCCC),leaf3
+hero_mangrove_ha,3.45M,Indonesia mangrove ha,~20% of global total (SNDC 2025),tide3
+hero_top_tier,2,Countries at 5/5 readiness,Indonesia & Kenya — full indicator set,white
+hero_idn_finance,USD 472.6B,Indonesia NDC finance need,2030–2035 period (SNDC 2025),white
 hero_seagrass_ha,660K,Seagrass Extent,National 2025 map (1.84M ha legacy estimate),tide3
 idx_avg_price,$4 (~IDR 67k),IDXCarbon Avg Price,Domestic market average — September 2025,white
 idx_volume_cumulative,1.60 MtCO2e,IDXCarbon Cumulative Volume,Sep 2023 – Jul 2025,white

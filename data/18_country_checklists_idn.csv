@@ -1,0 +1,27 @@
+country_code,dimension_id,item_label,status
+IDN,i,National strategy covering Article 6.2 and 6.4,yes
+IDN,i,Blue Carbon Ecosystems Roadmap published,yes
+IDN,i,2nd NDC explicitly includes blue carbon ecosystems,yes
+IDN,i,RENAKSI National Action Plan 2025–2030 in force,yes
+IDN,i,Net-zero target (2060 or sooner),yes
+IDN,ii,DNA designated by law,yes
+IDN,ii,Article 6 enabling regulation enacted (PR 110/2025),yes
+IDN,ii,SRUK registry established under presidential regulation,yes
+IDN,ii,Domestic carbon-pricing instrument operational (ETS / tax),yes
+IDN,ii,Salt-marsh and tidal-wetland legal recognition,partial
+IDN,iii,DNA office operational with dedicated staff,yes
+IDN,iii,Multi-ministry coordination (MoE, MMAF, MoF),yes
+IDN,iii,National registry operator designated,yes
+IDN,iii,Bilateral cooperation desks active,yes
+IDN,iii,Subnational (provincial) coordination mechanism,partial
+IDN,iv,Letter of Authorization procedure published (MoF Reg 6/2026),yes
+IDN,iv,Corresponding-adjustment process tested (JCM MRA),yes
+IDN,iv,Mutual Recognition Agreements with international standards,yes
+IDN,iv,Methodology approval process for blue carbon,partial
+IDN,iv,Public project submission portal,partial
+IDN,v,Article 6 registry (SRUK) live,yes
+IDN,v,National voluntary registry (SRN-PPI) live,yes
+IDN,v,National MRV platform (SIGN-SMART),yes
+IDN,v,Public ITMO ledger / transaction view,partial
+IDN,v,SIDAKO ocean accounting integrated with NDC reporting,partial
+IDN,v,Open data access to registry exports,partial
