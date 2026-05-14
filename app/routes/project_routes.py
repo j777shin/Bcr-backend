@@ -43,12 +43,6 @@ def get_projects():
     return jsonify([{'id': p.id, **p.to_dict()} for p in query.all()])
 
 
-@project_bp.route('/projects/<int:project_id>', methods=['GET'])
-def get_project(project_id):
-    project = ProjectCost.query.filter_by(id=project_id).first_or_404()
-    return jsonify({'id': project.id, **project.to_dict()})
-
-
 # --- Methodologies ---
 
 @project_bp.route('/methodologies', methods=['GET'])
@@ -60,12 +54,6 @@ def get_methodologies():
     return jsonify([m.to_dict() for m in query.all()])
 
 
-@project_bp.route('/methodologies/<string:methodology_id>', methods=['GET'])
-def get_methodology(methodology_id):
-    methodology = Methodology.query.filter_by(methodology_id=methodology_id).first_or_404()
-    return jsonify(methodology.to_dict())
-
-
 # --- Ecosystem Tiers ---
 
 @project_bp.route('/ecosystem-tiers', methods=['GET'])
@@ -74,7 +62,3 @@ def get_ecosystem_tiers():
     return jsonify([t.to_dict() for t in tiers])
 
 
-@project_bp.route('/ecosystem-tiers/<string:tier_name>', methods=['GET'])
-def get_ecosystem_tier(tier_name):
-    tier = EcosystemTier.query.filter_by(tier_name=tier_name).first_or_404()
-    return jsonify(tier.to_dict())

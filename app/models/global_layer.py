@@ -33,12 +33,6 @@ class Country(db.Model):
     flag_bilateral_a6_2      = db.Column(db.Boolean, default=False)
     flag_market_operational  = db.Column(db.Boolean, default=False)
     components_count         = db.Column(db.Integer, default=0)  # 0–5; precomputed
-    # Aliases kept for backwards compatibility with earlier UI code.
-    dna_appointed = db.Column(db.Boolean, default=False)
-    pr_submitted = db.Column(db.Boolean, default=False)
-    # SVG map coordinates (viewBox 0 0 1200 560) — legacy stylized map
-    map_cx = db.Column(db.Float, nullable=True)
-    map_cy = db.Column(db.Float, nullable=True)
 
     def to_dict(self):
         return {
@@ -64,10 +58,6 @@ class Country(db.Model):
             'flag_bilateral_a6_2': bool(self.flag_bilateral_a6_2),
             'flag_market_operational': bool(self.flag_market_operational),
             'components_count': self.components_count or 0,
-            'dna_appointed': bool(self.dna_appointed or self.flag_dna_appointed),
-            'pr_submitted': bool(self.pr_submitted or self.flag_pr_submitted),
-            'map_cx': self.map_cx,
-            'map_cy': self.map_cy,
         }
 
 
@@ -166,28 +156,6 @@ class GlobalNews(db.Model):
             'body': self.body,
             'date': self.date,
             'tags': self.tags or [],
-        }
-
-
-class GlobalTradeTrend(db.Model):
-    __tablename__ = 'global_trade_trends'
-
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    trend_id = db.Column(db.String(50), unique=True, nullable=False)
-    year = db.Column(db.Integer)
-    ecosystem_category = db.Column(db.String(100))
-    volume_traded_mt = db.Column(db.Float)
-    average_price_usd = db.Column(db.Float)
-    data_source = db.Column(db.String(200))
-
-    def to_dict(self):
-        return {
-            'trend_id': self.trend_id,
-            'year': self.year,
-            'ecosystem_category': self.ecosystem_category,
-            'volume_traded_mt': self.volume_traded_mt,
-            'average_price_usd': self.average_price_usd,
-            'data_source': self.data_source,
         }
 
 

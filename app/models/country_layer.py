@@ -105,24 +105,6 @@ class CountryInstitution(db.Model):
         }
 
 
-class EcosystemRecognition(db.Model):
-    __tablename__ = 'ecosystem_recognitions'
-
-    id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    country_code = db.Column(db.String(3), db.ForeignKey('countries.country_code'), nullable=False, index=True)
-    ecosystem_type = db.Column(db.String(50))
-    recognition_status = db.Column(db.String(50))
-    details = db.Column(db.Text)
-
-    def to_dict(self):
-        return {
-            'country_code': self.country_code,
-            'ecosystem_type': self.ecosystem_type,
-            'recognition_status': self.recognition_status,
-            'details': self.details,
-        }
-
-
 class CountryAgreement(db.Model):
     __tablename__ = 'country_agreements'
 

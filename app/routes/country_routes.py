@@ -2,7 +2,7 @@ from flask import Blueprint, jsonify, request
 from app.models.country_layer import (
     CountryMetric, CountryDimension, CountryChecklist,
     CountryNDCTarget, CountryInstitution,
-    EcosystemRecognition, CountryAgreement,
+    CountryAgreement,
 )
 
 country_bp = Blueprint('country', __name__)
@@ -39,12 +39,6 @@ def get_ndc_targets(country_code):
 def get_institutions(country_code):
     institutions = CountryInstitution.query.filter_by(country_code=country_code.upper()).all()
     return jsonify([i.to_dict() for i in institutions])
-
-
-@country_bp.route('/countries/<string:country_code>/ecosystem-recognition', methods=['GET'])
-def get_ecosystem_recognition(country_code):
-    recognitions = EcosystemRecognition.query.filter_by(country_code=country_code.upper()).all()
-    return jsonify([r.to_dict() for r in recognitions])
 
 
 @country_bp.route('/countries/<string:country_code>/agreements', methods=['GET'])

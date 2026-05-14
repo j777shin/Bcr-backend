@@ -14,7 +14,7 @@ from app.models.global_layer import (
 )
 from app.models.country_layer import (
     CountryMetric, CountryNDCTarget, CountryInstitution,
-    EcosystemRecognition, CountryAgreement,
+    CountryAgreement,
     CountryDimension, CountryChecklist,
 )
 from app.models.project_layer import Project, ProjectCost
@@ -100,8 +100,7 @@ def load_countries():
                 setattr(rec, field, v)
         for flag in ('flag_dna_appointed', 'flag_pr_submitted',
                      'flag_ndc_blue_carbon', 'flag_bilateral_a6_2',
-                     'flag_market_operational',
-                     'dna_appointed', 'pr_submitted'):
+                     'flag_market_operational'):
             if flag in row:
                 rec_val = _bool(row.get(flag))
                 if rec_val is not None:
@@ -109,12 +108,6 @@ def load_countries():
         cc = _int(row.get('components_count'))
         if cc is not None:
             rec.components_count = cc
-        v = _float(row.get('map_cx'))
-        if v is not None:
-            rec.map_cx = v
-        v = _float(row.get('map_cy'))
-        if v is not None:
-            rec.map_cy = v
     return len(rows)
 
 
@@ -255,21 +248,6 @@ def load_agreements():
     return len(rows)
 
 
-def load_ecosystem_recognitions():
-    rows = _csv('08_ecosystem_recognitions_idn.csv')
-    for row in rows:
-        code, eco = row['country_code'], row['ecosystem_type']
-        rec = EcosystemRecognition.query.filter_by(country_code=code, ecosystem_type=eco).first()
-        if not rec:
-            rec = EcosystemRecognition(country_code=code, ecosystem_type=eco)
-            db.session.add(rec)
-        if _str(row.get('recognition_status')):
-            rec.recognition_status = row['recognition_status']
-        if _str(row.get('details')):
-            rec.details = row['details']
-    return len(rows)
-
-
 def load_global_frameworks():
     rows = _csv('09_global_frameworks_idn.csv')
     for row in rows:
@@ -354,14 +332,6 @@ def load_countries_ref():
             db.session.add(rec)
         if not rec.country_name and _str(row.get('country_name')):
             rec.country_name = row['country_name']
-        if rec.map_cx is None:
-            v = _float(row.get('map_cx'))
-            if v is not None:
-                rec.map_cx = v
-        if rec.map_cy is None:
-            v = _float(row.get('map_cy'))
-            if v is not None:
-                rec.map_cy = v
     return len(rows)
 
 
@@ -503,7 +473,6 @@ LOADERS = [
     ('05_country_carbon_markets_update.csv', load_carbon_markets),
     ('06_country_institutions_idn.csv',  load_institutions),
     ('07_country_agreements_idn.csv',    load_agreements),
-    ('08_ecosystem_recognitions_idn.csv', load_ecosystem_recognitions),
     ('09_global_frameworks_idn.csv',     load_global_frameworks),
     ('10_global_news_idn.csv',           load_global_news),
     ('11_global_stats_new.csv',          load_global_stats),
