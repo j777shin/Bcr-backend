@@ -14,7 +14,7 @@ Per country we score five **binary indicators** from primary sources
   5. flag_market_operational  — supplementary research note + ICAP/World Bank
 
 `components_count` = sum of the five flags (0–5).
-`readiness_tier` is derived from the count: 5 → High readiness ·
+`readiness_tier` is derived from the count: 5 → Advanced ·
 3–4 → Developing · ≤2 → Early stage. `readiness_score = components_count * 20`.
 
 UNFCCC dimension scores are written **only for Indonesia** (curated).
@@ -176,7 +176,7 @@ def emoji_flag(iso3: str) -> str:
 
 def tier_from_count(n: int) -> str:
     if n >= 5:
-        return 'High readiness'
+        return 'Advanced'
     if n >= 3:
         return 'Developing'
     return 'Early stage'
