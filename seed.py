@@ -12,9 +12,9 @@ def init_db():
         db.create_all()
         print('✓ Database schema initialized.')
 
-    import extract_project_costs
+    import scripts.extract_project_costs
     print('Extracting project CAPEX/OPEX data to CSV...')
-    extract_project_costs.main()
+    scripts.extract_project_costs.main()
 
     from load_data import load_all
     load_all()
